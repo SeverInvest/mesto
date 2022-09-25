@@ -7,7 +7,7 @@
   max-width: 880px;
   min-width: calc(320px - 19px - 19px);
   height: 119px;
-  border-bottom: 1px solid #545454;
+  border-bottom: 1px solid #545454 rgba ;
 }
 
 @media screen and (max-width: 580px) {
