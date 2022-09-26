@@ -10,6 +10,13 @@
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+  transition: opacity .3s ease-in-out;
+}
+
+@media screen and (max-width: 924px) {
+  .traveler__button-add {
+    width: 282px;
+  }
 }
 
 .traveler__button-add:hover {

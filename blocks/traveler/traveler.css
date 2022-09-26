@@ -1,9 +1,18 @@
 .traveler {
-  margin: 0 0;
-  padding: 36px 0 47px;
-  max-width: 880px;
+  margin: 0;
+  padding: 36px 19px 47px;
+  max-width: сalc(924px - 19px * 2);
   display:flex;
   justify-content: space-between;
   align-items: center;
+}
 
+@media screen and (max-width: 924px) {
+  .traveler {
+    min-width: calc(320px - 19px * 2);
+    padding: 36px 19px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 36px;
+  }
 }

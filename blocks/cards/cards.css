@@ -1,9 +1,20 @@
 .cards {
-    max-width: 880px;
+    max-width: 924px;
     margin: 0 auto;
-    padding-top: 0;
+    padding: 0 19px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
-    list-style: none;
+  }
+
+  @media screen and (max-width: 924px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 622px) {
+    .cards {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }

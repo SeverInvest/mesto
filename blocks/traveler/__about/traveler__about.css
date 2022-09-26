@@ -1,7 +1,19 @@
 .traveler__about {
   margin: 0;
   padding: 16px 0 0;
+  max-width: 510px;
   font-weight: 400;
   font-size: 18px;
-  line-height: 1.4em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 924px) {
+  .traveler__about {
+    max-width: 282px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
 }
