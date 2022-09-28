@@ -23,68 +23,68 @@
           <img src="./images/avatar.png" alt="аватар пользователя" class="traveler__avatar">
           <div class="traveler__middle">
             <div class="traveler__name-and-button">
-              <h2 class="traveler__name">Жак-Ив Кусто</h2>
-              <button class="traveler__button-correct"></button>
+              <h1 class="traveler__name">Жак-Ив Кусто</h1>
+              <button class="traveler__button-correct" type="button"></button>
             </div>
             <p class="traveler__about">Исследователь океана</p>
           </div>
         </div>
 
-        <button class="traveler__button-add"></button>
+        <button class="traveler__button-add" type="button"></button>
 
       </section>
 
-      <section class="cards" aria-label="Раздел с картинками">
+      <ul class="cards" aria-label="Раздел с картинками">
 
-        <figure class="card">
-          <img class="card__photo" src="./images/krasnaya.jpg" alt="Красная площадь в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/krasnaya.jpg" alt="Красная площадь в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Красная площадь в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-        <figure class="card">
-          <img class="card__photo" src="./images/monastyr.png" alt="Спасо-преображенский монастырь в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/monastyr.png" alt="Спасо-преображенский монастырь в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Спасо-преображенский монастырь в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-        <figure class="card">
-          <img class="card__photo" src="./images/rechnoy_vokzal.png" alt="Речной вокзал в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/rechnoy_vokzal.png" alt="Речной вокзал в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Речной порт в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-        <figure class="card">
-          <img class="card__photo" src="./images/rotonda.png" alt="Ротонда на реке Которосль в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/rotonda.png" alt="Ротонда на реке Которосль в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Ротонда на реке Которосль в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-        <figure class="card">
-          <img class="card__photo" src="./images/strelka.png" alt="Стрелка в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/strelka.png" alt="Стрелка в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Стрелка в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-        <figure class="card">
-          <img class="card__photo" src="./images/theater.png" alt="Театр имени Фёдора Волкова в Ярославле">
-          <figcaption class="card__footer">
+        <li class="card">
+          <img class="card__photo" src="./images/photos_for_cards/theater.png" alt="Театр имени Фёдора Волкова в Ярославле">
+          <div class="card__footer">
             <p class="card__description">Театр имени Фёдора Волкова в Ярославле</p>
-            <img src="./images/heart.svg" class="card__heart" alt="Сердечко для лайка">
-          </figcaption>
-        </figure>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </li>
 
-      </section>
+      </ul>
     </main>
 
     <footer class="footer">
@@ -93,14 +93,14 @@
       </p>
     </footer>
 
-    <section class="overlay">
-      <div class="popup">
-        <button class="popup__close"></button>
+    <section class="popup">
+      <form class="popup__container">
         <h2 class="popup__header">Редактировать профиль</h2>
-        <input type="text" placeholder="Введите свое имя" class="popup__input popup__name">
-        <input type="text" placeholder="Напишите немного о себе" class="popup__input popup__about">
-        <button class="popup__submit">Сохранить</button>
-      </div>
+        <input type="text" placeholder="Введите свое имя" class="popup__input popup__input_type_name">
+        <input type="text" placeholder="Напишите немного о себе" class="popup__input popup__input_type_about">
+        <button class="popup__submit" type="submit">Сохранить</button>
+        <button class="popup__close" type="button"></button>
+      </form>
     </section>
 
   </div>

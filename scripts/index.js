@@ -1,27 +1,35 @@
-const popupOpen = document.querySelector('.traveler__button-correct');
-let overlay = document.querySelector('.overlay');
-let popupNameOld = document.querySelector('.traveler__name');
-let popupAboutOld = document.querySelector('.traveler__about');
-let popupNameNew = overlay.querySelector('.popup__name');
-let popupAboutNew = overlay.querySelector('.popup__about');
-const popupSubmit = overlay.querySelector('.popup__submit');
-const popupClose = overlay.querySelector('.popup__close');
+const popupButtonOpen = document.querySelector('.traveler__button-correct');
+const popup = document.querySelector('.popup');
+let nameOld = document.querySelector('.traveler__name');
+let aboutOld = document.querySelector('.traveler__about');
+let nameNew = popup.querySelector('.popup__input_type_name');
+let aboutNew = popup.querySelector('.popup__input_type_about');
+const popupButtonSubmit = popup.querySelector('.popup__submit');
+const popupButtonClose = popup.querySelector('.popup__close');
 
-function overlayInvisible(event) {
-  if (event.target.className == "traveler__button-correct") {
-    popupNameNew.value = popupNameOld.textContent;
-    popupAboutNew.value = popupAboutOld.textContent;
-  } else if(event.target.className == "popup__submit"){
-    event.preventDefault();
-    popupNameOld.textContent = popupNameNew.value;
-    popupAboutOld.textContent = popupAboutNew.value;
-  }
-  overlay.classList.toggle('overlay_invisible');
+function popupSubmit(event) {
+  event.preventDefault();
+  nameOld.textContent = nameNew.value;
+  aboutOld.textContent = aboutNew.value;
+  popupClose(event);
 }
 
-popupOpen.addEventListener('click', overlayInvisible);
-popupSubmit.addEventListener('click', overlayInvisible);
-popupClose.addEventListener('click', overlayInvisible);
+function popupOpen(event) {
+  nameNew.value = nameOld.textContent;
+  aboutNew.value = aboutOld.textContent;
+  popup.classList.add('popup_visible');
+}
+
+function popupClose(event) {
+  if (event.target == event.currentTarget) {
+    popup.classList.remove('popup_visible');
+  }
+}
+
+popupButtonOpen.addEventListener('click', popupOpen);
+popupButtonSubmit.addEventListener('click', popupSubmit);
+popupButtonClose.addEventListener('click', popupClose);
+popup.addEventListener('click', popupClose);
 
 
 
