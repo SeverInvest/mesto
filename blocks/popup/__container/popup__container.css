@@ -3,18 +3,18 @@
   margin: 0;
   width: 430px;
   height: 330px;
-  background: #FFFFFF;
+  background: #FFF;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: flex-start;
   box-sizing: border-box;
   position: relative;
 }
 
-@media screen and (max-width: 622px) {
+@media screen and (max-width: 619px) {
   .popup__container {
     width: 282px;
     height: 322px;

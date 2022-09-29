@@ -4,15 +4,15 @@
   align-items: center;
   margin: 0 auto;
   padding: 0;
-  max-width: 886px;
+  max-width: 880px;
   min-height: 119px;
   border-bottom: 1px solid rgba(84, 84, 84, .7);
 }
 
-@media screen and (max-width: 924px) {
+@media screen and (max-width: 918px) {
   .header {
     max-width: 293px;
-    min-height: 84px;
+    min-height: 80px;
     padding-left: 27px;
   }
 }
