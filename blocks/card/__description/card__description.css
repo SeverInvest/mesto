@@ -5,7 +5,8 @@
   color: #000000;
   padding: 0;
   margin: 0;
-  max-width: 179px;
+  max-width: 188px;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
