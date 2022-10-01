@@ -1,11 +1,9 @@
 .traveler__button-correct {
-  margin: 3px 0 0;
+  margin: 5px 0 0;
   padding: 0;
   border: 1px solid #FFF;
-  max-width: 25px;
-  width: 100%;
-  max-height: 25px;
-  height: 100%;
+  width: 25px;
+  height: 25px;
   background-color: #000;
   background-image: url(../../../images/corrector.svg);
   background-size: 10px;
