@@ -6,13 +6,13 @@
   padding: 0 19px;
 }
 
-@media screen and (max-width: 918px) {
+@media screen and (max-width: 950px) {
   .cards {
     max-width: 619px;
   }
 }
 
-@media screen and (max-width: 619px) {
+@media screen and (max-width: 650px) {
   .cards {
     max-width: 320px;
   }
