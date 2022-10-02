@@ -11,7 +11,7 @@
   outline: none;
 }
 
-@media screen and (max-width: 619px) {
+@media screen and (max-width: 650px) {
   .form__input {
     padding: 33px 0 8px;
   }

@@ -7,13 +7,13 @@
   list-style: none;
 }
 
-@media screen and (max-width: 918px) {
+@media screen and (max-width: 950px) {
   .cards__list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media screen and (max-width: 619px) {
+@media screen and (max-width: 650px) {
   .cards__list {
     grid-template-columns: repeat(1, 1fr);
   }

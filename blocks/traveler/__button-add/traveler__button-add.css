@@ -14,7 +14,7 @@
   transition: opacity .3s ease-in-out;
 }
 
-@media screen and (max-width: 918px) {
+@media screen and (max-width: 950px) {
   .traveler__button-add {
     background-size: 16px;
     width: 282px;
