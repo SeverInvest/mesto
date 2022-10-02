@@ -3,7 +3,7 @@
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  padding: 0;
+  padding: 0px;
   max-width: 880px;
   min-height: 119px;
   border-bottom: 1px solid rgba(84, 84, 84, .7);
@@ -11,7 +11,8 @@
 
 @media screen and (max-width: 918px) {
   .header {
-    max-width: 293px;
+    box-sizing: border-box;
+    max-width: 320px;
     min-height: 84px;
     padding-left: 27px;
   }
