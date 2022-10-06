@@ -5,4 +5,10 @@
   padding: 0;
   object-fit: cover;
   object-position: center;
+  cursor: pointer;
+  transition: opacity .3s ease-in-out;
+}
+
+.card__photo:hover {
+  opacity: .6;
 }
