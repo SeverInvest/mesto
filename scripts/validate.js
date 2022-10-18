@@ -16,7 +16,6 @@ const showInputError = (formElement, inputElement, errorMessage, params) => {
   inputElement.classList.add(params.inputErrorClass);
   errorElement.classList.add(params.errorClass);
   errorElement.textContent = errorMessage;
-  console.log(errorElement.textContent);
 };
   
 const hideInputError = (formElement, inputElement, params) => {
