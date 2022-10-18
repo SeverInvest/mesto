@@ -50,7 +50,7 @@ initialCards.forEach((item) => addCard(createCard(item.name, item.link), cardsLi
 
 // Декларирование функций
 // Общие функции для всех popup
-function popupOpen(popup) {
+function openPopup(popup) {
   popup.classList.add('popup_visible');
 };
 
@@ -69,20 +69,18 @@ function submitPopupProfile(event) {
 function openPopupProfile() {
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  popupOpen(popupProfile);
+  openPopup(popupProfile);
 };
 
 // Функции для попапа добавления карточки
 function openPopupCard() {
   cardForm.reset();
-  popupOpen(cardPopup);
+  openPopup(cardPopup);
 };
 
 function submitPopupCard(evt) {
   evt.preventDefault();
   addCard(createCard(cardHeader.value, cardLink.value), cardsList);
-  cardHeader.value = '';
-  cardLink.value = '';
   closePopup(cardPopup);
 };
 
@@ -116,7 +114,7 @@ function createCard(name, link) {
 
 // Функции для popupBigPhoto
 function renderPopupBigPhoto(event) {
-  popupOpen(popupBigPhoto);
+  openPopup(popupBigPhoto);
   photoPopupHeader.textContent = event.target.closest('.card').querySelector('.card__description').textContent;
   bigPhoto.src = event.target.src;
   bigPhoto.alt = photoPopupHeader.textContent;
