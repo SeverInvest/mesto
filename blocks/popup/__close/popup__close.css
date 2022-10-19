@@ -5,7 +5,7 @@
   background: none;
   background-image: url("../../../images/close_icon.svg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   border: none;
   cursor: pointer;
   transition: opacity .3s ease-in-out;
