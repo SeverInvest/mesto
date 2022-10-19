@@ -12,11 +12,13 @@ const popupProfile = document.querySelector('.popup_type_profile');
 const popupProfileForm = popupProfile.querySelector('.form');
 const inputName = popupProfileForm.querySelector('.form__input_type_name');
 const inputAbout = popupProfileForm.querySelector('.form__input_type_about');
+const inputsProfileList = popupProfileForm.querySelectorAll('.form__input');
 const inputErrorListProfile = popupProfileForm.querySelectorAll('.error');
 const buttonSubmitProfile = popupProfileForm.querySelector('.form__submit');
 
 //общие
-const buttonsClose = document.querySelectorAll('.popup__close')
+const buttonsClose = document.querySelectorAll('.popup__close');
+const popupList = document.querySelectorAll('.popup');
 
 //cards
 const cardsList = document.querySelector('.cards__list');
@@ -26,6 +28,7 @@ const cardPopup = document.querySelector('.popup_type_card');
 const cardForm = cardPopup.querySelector('.form');
 const cardHeader = cardForm.querySelector('.form__input_type_place');
 const cardLink = cardForm.querySelector('.form__input_type_link');
+const inputsCardList = cardForm.querySelectorAll('.form__input')
 const cardErrorList = cardForm.querySelectorAll('.error');
 const buttonSubmitCard = cardForm.querySelector('.form__submit');
 
@@ -35,9 +38,8 @@ const bigPhoto = popupBigPhoto.querySelector('.popup__photo');
 const photoPopupHeader = popupBigPhoto.querySelector('.popup__photo-description');
 
 //Создание слушателей на закрытие popup нажатием на оверлей, нажатием на кнопку Отмена
-document.querySelectorAll('.popup').forEach((item) => setEventClosePopup(item));
-document.querySelectorAll('.popup__close').forEach((item) => setEventClosePopup(item));
-
+popupList.forEach((item) => setEventClosePopupOverlay(item));
+buttonsClose.forEach((item) => setEventClosePopupButton(item));
 
 // Создание слушателей на кнопку открытия и сохранения popupProfile
 buttonOpenProfile.addEventListener('click', openPopupProfile);
@@ -53,15 +55,17 @@ initialCards.forEach((item) => addCard(createCard(item.name, item.link), cardsLi
 // Декларирование функций
 // Общие функции для всех popup
 
-function setEventClosePopup(item) {
+function setEventClosePopupOverlay(item) {
   item.addEventListener('click', (event) => {
     if (event.target === event.currentTarget) {
-      if (item.type === 'button') {
-        closePopup(event.target.closest('.popup'))
-      } else {
-        closePopup(item);
-      };
+      closePopup(item);
     };
+  });
+};
+
+function setEventClosePopupButton(item) {
+  item.addEventListener('click', (event) => {
+    closePopup(event.target.closest('.popup'))
   });
 };
 
@@ -88,31 +92,31 @@ function submitPopupProfile(event) {
   profileAbout.textContent = inputAbout.value;
   closePopup(popupProfile);
 };
-
+// Сообщение для ревьюера: 
+//не знаю как передать аргумент params в другую функцию, 
+//если он не получен на вход в текущую функцию. Пришлось params вынести в глобальную зону видимости
+//Думаю, что это неправильно. Но как правильно - не знаю.
+//После переноса params в глобальную зону видимости, можно убрать этот аргумент из входа и выхода всех функций
+//так как он все равно будет виден. Но я оставил. И это тоже неправильно.
 function openPopupProfile() {
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  inputName.classList.remove('form__input_type_error');
-  inputAbout.classList.remove('form__input_type_error');
-  buttonSubmitProfile.classList.remove('form__submit_disabled');
-  buttonSubmitProfile.disabled = false
-  inputErrorListProfile.forEach((item) => {
-    item.textContent = '';
-  });
+  inputsProfileList.forEach((inputElement) => removeClassError(inputElement, params));
+  toggleButtonState(buttonSubmitProfile, params, false);
+  inputErrorListProfile.forEach((errorElement) => removeValidationErrors(errorElement, params));
   openPopup(popupProfile);
 };
 
 // Функции для попапа добавления карточки
 function openPopupCard() {
   cardForm.reset();
-  cardHeader.classList.remove('form__input_type_error');
-  cardLink.classList.remove('form__input_type_error');
-  buttonSubmitCard.classList.add('form__submit_disabled');
-  buttonSubmitCard.disabled = true
-  cardErrorList.forEach((item) => {
-    item.textContent = '';
-  });
+  inputsCardList.forEach((inputElement) => removeClassError(inputElement, params));
+  toggleButtonState(buttonSubmitCard, params, true)
+  cardErrorList.forEach((errorElement) => removeValidationErrors(errorElement, params));
   openPopup(cardPopup);
+//Сообщение ревьюеру: почему не работает фокус?
+  inputsCardList[0].focus();
+// https://doka.guide/js/element-focus/ - вроде сделал как написано
 };
 
 function submitPopupCard(evt) {
