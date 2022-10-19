@@ -12,7 +12,6 @@ const popupProfile = document.querySelector('.popup_type_profile');
 const popupProfileForm = popupProfile.querySelector('.form');
 const inputName = popupProfileForm.querySelector('.form__input_type_name');
 const inputAbout = popupProfileForm.querySelector('.form__input_type_about');
-const inputsProfileList = popupProfileForm.querySelectorAll('.form__input');
 const inputErrorListProfile = popupProfileForm.querySelectorAll('.error');
 const buttonSubmitProfile = popupProfileForm.querySelector('.form__submit');
 
@@ -28,7 +27,6 @@ const cardPopup = document.querySelector('.popup_type_card');
 const cardForm = cardPopup.querySelector('.form');
 const cardHeader = cardForm.querySelector('.form__input_type_place');
 const cardLink = cardForm.querySelector('.form__input_type_link');
-const inputsCardList = cardForm.querySelectorAll('.form__input')
 const cardErrorList = cardForm.querySelectorAll('.error');
 const buttonSubmitCard = cardForm.querySelector('.form__submit');
 
@@ -92,16 +90,12 @@ function submitPopupProfile(event) {
   profileAbout.textContent = inputAbout.value;
   closePopup(popupProfile);
 };
-// Сообщение для ревьюера: 
-//не знаю как передать аргумент params в другую функцию, 
-//если он не получен на вход в текущую функцию. Пришлось params вынести в глобальную зону видимости
-//Думаю, что это неправильно. Но как правильно - не знаю.
-//После переноса params в глобальную зону видимости, можно убрать этот аргумент из входа и выхода всех функций
-//так как он все равно будет виден. Но я оставил. И это тоже неправильно.
+
 function openPopupProfile() {
   inputName.value = profileName.textContent;
   inputAbout.value = profileAbout.textContent;
-  inputsProfileList.forEach((inputElement) => removeClassError(inputElement, params));
+  removeClassError(inputName, params);
+  removeClassError(inputAbout, params);
   toggleButtonState(buttonSubmitProfile, params, false);
   inputErrorListProfile.forEach((errorElement) => removeValidationErrors(errorElement, params));
   openPopup(popupProfile);
@@ -110,13 +104,11 @@ function openPopupProfile() {
 // Функции для попапа добавления карточки
 function openPopupCard() {
   cardForm.reset();
-  inputsCardList.forEach((inputElement) => removeClassError(inputElement, params));
+  removeClassError(cardHeader, params);
+  removeClassError(cardLink, params);
   toggleButtonState(buttonSubmitCard, params, true)
   cardErrorList.forEach((errorElement) => removeValidationErrors(errorElement, params));
   openPopup(cardPopup);
-//Сообщение ревьюеру: почему не работает фокус?
-  inputsCardList[0].focus();
-// https://doka.guide/js/element-focus/ - вроде сделал как написано
 };
 
 function submitPopupCard(evt) {
