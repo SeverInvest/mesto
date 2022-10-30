@@ -2,7 +2,7 @@
 
 import Card from "./Card.js";
 import initialCards from "./cards.js";
-import { FormValidatorCard, FormValidatorProfile } from "./FormValidator.js";
+import FormValidator from "./FormValidator.js";
 import PARAMS from "./params.js";
 
 // Объявление переменных
@@ -26,6 +26,7 @@ const buttonsClose = document.querySelectorAll('.popup__close');
 const popupList = document.querySelectorAll('.popup');
 
 //cards
+const cardsList = document.querySelector('.cards__list');
 const buttonOpenAddCard = document.querySelector('.traveler__button-add');
 const cardPopup = document.querySelector('.popup_type_card');
 const cardForm = cardPopup.querySelector('.form');
@@ -54,7 +55,8 @@ cardForm.addEventListener('submit', submitPopupCard);
 
 // Добавляем карточки из массива объектов на страницу
 initialCards.forEach((item) => {
-  new Card(item.name, item.link).addCard();
+  const card = createCard(item.name, item.link);
+  addCard(card);
 });
 
 // Декларирование функций
@@ -114,7 +116,8 @@ function openPopupCard() {
 
 function submitPopupCard(evt) {
   evt.preventDefault();
-  new Card(cardHeader.value, cardLink.value).addCard();
+  const card = createCard(cardHeader.value, cardLink.value);
+  addCard(card);
   closePopup(cardPopup);
 };
 
@@ -126,7 +129,15 @@ export function renderPopupBigPhoto(event) {
   bigPhoto.alt = photoPopupHeader.textContent;
 }
 
-const formValidateProfile = new FormValidatorProfile(PARAMS, popupProfileForm);
-const formValidateCard = new FormValidatorCard(PARAMS, cardForm);
+function createCard(name, link) {
+  return new Card(name, link, PARAMS.templateCardSelector).createCard();
+};
+
+function addCard(card) {
+  cardsList.prepend(card);
+}
+
+const formValidateProfile = new FormValidator(PARAMS, popupProfileForm);
+const formValidateCard = new FormValidator(PARAMS, cardForm);
 formValidateProfile.enableValidation();
 formValidateCard.enableValidation();
