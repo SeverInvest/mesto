@@ -6,6 +6,8 @@ const PARAMS = {
     submitButtonSelector: '.form__submit',
     inactiveButtonClass: 'form__submit_disabled',
     inputErrorClass: 'form__input_type_error',
-    errorClass: 'error_visible'
+    errorClass: 'error_visible',
+    templateCardSelector: '#card',
+    spanErrorSelector: '.error'
   };
   export default PARAMS;

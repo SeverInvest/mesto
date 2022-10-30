@@ -1,14 +1,10 @@
 'use strict';
 
-import {
-  inputListProfile, inputErrorListProfile, buttonSubmitProfile,
-  inputListCard, cardErrorList, buttonSubmitCard
-} from "./index.js";
-
-export class FormValidator {
+export default class FormValidator {
   constructor(params, formElement) {
     this._params = params;
     this._formElement = formElement;
+    this._errorList = formElement.querySelectorAll(params.spanErrorSelector);
   };
 
   _addClassError(inputElement) {
@@ -49,28 +45,28 @@ export class FormValidator {
     }
   };
 
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
-  _toggleButtonState(button, inOrOff) {
-    button.disabled = inOrOff;
-    if (inOrOff) {
-      button.classList.add(this._params.inactiveButtonClass);
+  _toggleButtonState() {
+    this._buttonElement.disabled = this._hasInvalidInput();
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._params.inactiveButtonClass);
     } else {
-      button.classList.remove(this._params.inactiveButtonClass);
+      this._buttonElement.classList.remove(this._params.inactiveButtonClass);
     }
   };
 
   _setEventListeners() {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._params.inputSelector));
-    const buttonElement = this._formElement.querySelector(this._params.submitButtonSelector);
-    inputList.forEach((inputElement) => {
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._params.inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._params.submitButtonSelector);
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(buttonElement, this._hasInvalidInput(inputList))
+        this._toggleButtonState()
       });
     });
   };
@@ -82,39 +78,11 @@ export class FormValidator {
     this._setEventListeners();
   };
 
-  clearErrorsFields(_inputList, _buttonSubmit, _isInactiveButton, _errorList) {
+  clearErrors() {
     this._inputList.forEach((inputElement) => {
       this._removeClassError(inputElement);
     });
-    this._toggleButtonState(this._buttonSubmit, _isInactiveButton)
+    this._toggleButtonState()
     this._errorList.forEach((errorElement) => this._removeValidationErrors(errorElement));
-  };
-};
-
-export class FormValidatorProfile extends FormValidator {
-  constructor(params, formElement) {
-    super(params, formElement);
-    this._inputList = inputListProfile;
-    this._errorList = inputErrorListProfile;
-    this._buttonSubmit = buttonSubmitProfile;
-
-  };
-
-  clearErrors() {
-    super.clearErrorsFields(this._inputList, this._buttonSubmit, false, this._errorList);
-  };
-};
-
-export class FormValidatorCard extends FormValidator {
-  constructor(params, formElement) {
-    super(params, formElement);
-    this._inputList = inputListCard;
-    this._errorList = cardErrorList;
-    this._buttonSubmit = buttonSubmitCard;
-
-  };
-
-  clearErrors() {
-    super.clearErrorsFields(this._inputList, this._buttonSubmit, true, this._errorList);
   };
 };
