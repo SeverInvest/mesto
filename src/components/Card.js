@@ -1,11 +1,11 @@
 'use strict';
 
-import { renderPopupBigPhoto } from "./index.js";
-
 export default class Card {
-  constructor(name, link, templateCardSelector) {
-    this._name = name;
-    this._link = link;
+  constructor(data, templateCardSelector, handleCardClick) {
+    this._data = data;
+    this._name = data.name;
+    this._link = data.link;
+    this._handleCardClick = handleCardClick;
     this._templateCardSelector = templateCardSelector
     this._cardElement = this._getTemplate();
   };
@@ -29,7 +29,9 @@ export default class Card {
   };
 
   _setEventListeners() {
-    this._cardElement.querySelector('.card__photo').addEventListener('click', renderPopupBigPhoto);
+    this._cardElement.querySelector('.card__photo').addEventListener('click', () => {
+      this._handleCardClick({'name': this._name, 'link': this._link});
+    });
     this._cardElement.querySelector('.card__heart').addEventListener('click', () => this._toggleLike());
     this._cardElement.querySelector('.card__remove-button').addEventListener('click', () => this._removeCard());
   }

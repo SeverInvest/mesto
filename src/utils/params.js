@@ -8,6 +8,9 @@ const PARAMS = {
     inputErrorClass: 'form__input_type_error',
     errorClass: 'error_visible',
     templateCardSelector: '#card',
-    spanErrorSelector: '.error'
+    spanErrorSelector: '.error',
+    popupBigPhotoSelector: '.popup_type_photo',
+    popupCardSelector: '.popup_type_card',
+    popupCloseSelector: '.popup__close',
   };
   export default PARAMS;
