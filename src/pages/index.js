@@ -78,9 +78,6 @@ popupEditProfile.setEventListeners();
 
 const popupProfile = document.querySelector('.popup_type_profile');
 const popupProfileForm = popupProfile.querySelector('.form');
-export const inputListProfile = popupProfileForm.querySelectorAll('.form__input')
-export const inputErrorListProfile = popupProfileForm.querySelectorAll('.error');
-export const buttonSubmitProfile = popupProfileForm.querySelector('.form__submit');
 
 const inputProfileName = popupProfileForm.querySelector('.form__input_type_name');
 const inputProfileAbout = popupProfileForm.querySelector('.form__input_type_about');
@@ -101,9 +98,6 @@ buttonOpenProfile.addEventListener('click', openPopupProfile);
 
 const cardPopup = document.querySelector('.popup_type_card');
 const cardForm = cardPopup.querySelector('.form');
-export const inputListCard = cardForm.querySelectorAll('.form__input');
-export const cardErrorList = cardForm.querySelectorAll('.error');
-export const buttonSubmitCard = cardForm.querySelector('.form__submit');
 
 const formValidateProfile = new FormValidator(PARAMS, popupProfileForm);
 const formValidateCard = new FormValidator(PARAMS, cardForm);
