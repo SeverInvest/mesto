@@ -19,6 +19,7 @@ module.exports = {
     port: 8080, // порт, чтобы открывать сайт по адресу localhost:8080, но можно поменять порт
     open: true // сайт будет открываться сам при запуске npm run dev
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [ // rules — это массив правил
       // добавим в него объект правил для бабеля
@@ -64,6 +65,6 @@ module.exports = {
       template: './src/index.html' // путь к файлу index.html
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin()
   ]
 };

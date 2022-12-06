@@ -9,22 +9,35 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from '../components/UserInfo.js';
 import PARAMS from '../utils/params.js';
-import initialCards from "../utils/cards.js";
+//import initialCards from "../utils/cards.js";
+import Api from "../components/Api.js";
+import connect from "../utils/connect.js";
 
-
-// Cards
+const userInfo = new UserInfo('.traveler__name', '.traveler__about');
 const cardsList = document.querySelector('.cards__list');
 
-// Добавляем карточки из массива объектов на страницу
 const cardList = new Section({
-  items: initialCards,
   renderer: data => {
     cardList.addItem(createNewCard(data));
   }
 },
   '.cards__list'
 );
-cardList.renderItems();
+
+const api = new Api(connect);
+api.renderUserAndCards()
+  .then((data) => {
+    console.log(data);
+    userInfo.setUserInfo({
+      name: data[0].name,
+      about: data[0].about,
+      myId: data[0]._id
+    });
+    cardList.renderItems({
+      cards: data[1],
+      myId: data[0]._id
+    });
+  })
 
 // Создаём экземпляр класса попапа на полный экран
 const popupFullScreen = new PopupWithImage('.popup_type_photo');
@@ -35,7 +48,13 @@ function handleCardClick(data) { popupFullScreen.open(data) };
 
 // функция создания новой карточки
 function createNewCard(data) {
-  return new Card(data, PARAMS.templateCardSelector, handleCardClick).createCard();
+  return new Card(
+    data,
+    PARAMS.templateCardSelector,
+    handleCardClick,
+    handleToggleLike
+  )
+    .createCard();
 };
 // функция добавляет карточку в массив 
 function addCard(card) {
@@ -48,8 +67,11 @@ const popupAddCard = new PopupWithForm(handleSubmitCard, '.popup_type_card');
 // Обработчик события submit формы добавления карточки 
 function handleSubmitCard(evt, data) {
   evt.preventDefault();
-  addCard(createNewCard(data));
-  popupAddCard.close();
+  api.setCard(data)
+    .then((data) => {
+      addCard(createNewCard(data));
+    })
+    .then(() => popupAddCard.close());
 };
 
 popupAddCard.setEventListeners();
@@ -70,9 +92,20 @@ const popupEditProfile = new PopupWithForm(handleSubmitProfile, '.popup_type_pro
 // Обработчик события submit формы редактированя профиля
 function handleSubmitProfile(evt, data) {
   evt.preventDefault();
-  userInfo.setUserInfo(data);
-  popupEditProfile.close();
+  api.setUserInfo(data)
+    .then((data) => {
+      userInfo.setUserInfo(data)
+    })
+    .then(() => popupEditProfile.close())
 };
+
+function handleToggleLike(data) {
+  api.toggleLikeCard(data)
+  .then((response, ...args) => {
+    args[0].setLike(response)
+  })
+};
+
 
 popupEditProfile.setEventListeners();
 
@@ -89,8 +122,6 @@ function openPopupProfile() {
   formValidateProfile.clearErrors();
   popupEditProfile.open();
 };
-
-const userInfo = new UserInfo('.traveler__name', '.traveler__about');
 
 const profile = document.querySelector('.traveler')
 const buttonOpenProfile = profile.querySelector('.traveler__button-correct');

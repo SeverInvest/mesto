@@ -15,7 +15,7 @@
     <header class="header">
       <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип сайта">
     </header>
-    
+
     <main class="content">
       <section class="traveler">
         <div class="traveler__left">
@@ -50,11 +50,14 @@
       <div class="popup__container">
         <h2 class="popup__header">Редактировать профиль</h2>
         <form method="post" class="form" name="form-profile" id="form-profile" novalidate>
-          <input required minlength="2" maxlength="40" type="text" placeholder="Введите свое имя" class="form__input form__input_type_name" name="inputProfileName" id="input-name">
+          <input required minlength="2" maxlength="40" type="text" placeholder="Введите свое имя"
+            class="form__input form__input_type_name" name="name" id="input-name">
           <span class="error" id="input-name-error"></span>
-          <input required minlength="2" maxlength="200" type="text" placeholder="Напишите немного о себе" class="form__input form__input_type_about" name="inputProfileAbout" id="input-about">
+          <input required minlength="2" maxlength="200" type="text" placeholder="Напишите немного о себе"
+            class="form__input form__input_type_about" name="about" id="input-about">
           <span class="error" id="input-about-error"></span>
-          <button class="form__submit" type="submit" aria-label="Сохранение данных формы" name="popup-profile-form-submit">Сохранить</button>
+          <button class="form__submit" type="submit" aria-label="Сохранение данных формы"
+            name="popup-profile-form-submit">Сохранить</button>
         </form>
         <button class="popup__close" type="button" aria-label="Закрытие попапа"></button>
       </div>
@@ -64,11 +67,14 @@
       <div class="popup__container">
         <h2 class="popup__header">Новое место</h2>
         <form method="post" class="form" name="card" id="form-card" novalidate>
-          <input required minlength="2" maxlength="30" type="text" placeholder="Название" class="form__input form__input_type_place" name="name" id="place-header">
+          <input required minlength="2" maxlength="30" type="text" placeholder="Название"
+            class="form__input form__input_type_place" name="name" id="place-header">
           <span class="error" id="place-header-error"></span>
-          <input required type="url" placeholder="Ссылка на картинку" class="form__input form__input_type_link" name="link" id="link">
+          <input required type="url" placeholder="Ссылка на картинку" class="form__input form__input_type_link"
+            name="link" id="link">
           <span class="error" id="link-error"></span>
-          <button type="submit" class="form__submit form__submit_disabled" aria-label="Сохранение данных формы" disabled>Создать</button>
+          <button type="submit" class="form__submit form__submit_disabled" aria-label="Сохранение данных формы"
+            disabled>Создать</button>
         </form>
         <button type="button" class="popup__close" aria-label="Закрытие попапа"></button>
       </div>
@@ -88,7 +94,10 @@
         <img class="card__photo" src="#" alt="">
         <div class="card__footer">
           <p class="card__description">Архыз</p>
-          <button class="card__heart" type="button" aria-label="Лайк"></button>
+          <div class="card__heart-and-count-likes">
+            <button class="card__heart" type="button" aria-label="Лайк"></button>
+            <span class="card__count-likes">0</span>
+          </div>
         </div>
       </li>
     </template>
