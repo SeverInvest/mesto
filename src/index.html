@@ -88,12 +88,22 @@
       </div>
     </div>
 
+    <div class="popup popup_type_confirm">
+      <div class="popup__container">
+        <h2 class="popup__header">Вы уверены?</h2>
+        <form>
+          <button type="submit" class="form__submit" aria-label="Удаление карточки">Удалить</button>
+        </form>
+        <button class="popup__close" type="button" aria-label="Закрытие попапа"></button>
+      </div>
+    </div>
+
     <template id="card">
       <li class="card">
         <button class="card__remove-button" type="button" aria-label="Удаление карточки"></button>
         <img class="card__photo" src="#" alt="">
         <div class="card__footer">
-          <p class="card__description">Архыз</p>
+          <p class="card__description"></p>
           <div class="card__heart-and-count-likes">
             <button class="card__heart" type="button" aria-label="Лайк"></button>
             <span class="card__count-likes">0</span>

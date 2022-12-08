@@ -12,12 +12,9 @@ export default class Section {
   };
 
   renderItems(objects) {
-    //console.log(objects);
+    console.log(objects);
     objects.cards.forEach(item => {
-      this._renderer({
-        card: item,
-        myId: objects.myId
-      });
+      this._renderer(item);
     });
   };
 };

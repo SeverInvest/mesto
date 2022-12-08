@@ -1,15 +1,12 @@
+'use strict';
+
 class Api {
   constructor(connect) {
     this._connect = connect;
   }
 
-  _onError(result, ...args) {
-    console.log(result.ok, result.json(), args.length);
+  _onError(result) {
     if (result.ok) {
-      if (args.length>0) {
-        //console.log(result.json(), args);
-        return result.json(), args;
-      }
       return result.json();
     }
     return Promise.reject(`Ошибка: ${result.status}`);
@@ -62,15 +59,25 @@ class Api {
       .catch(this._isError)
   }
 
-  toggleLikeCard({ idCard, methodCardLike, setLike }) {
+  toggleLikeCard({ idCard, methodCardLike }) {
     return fetch(`${this._connect.baseUrl}/cards/${idCard}/likes`, {
       method: methodCardLike,
       headers: this._connect.headers
-    }), setLike
-      .then(this._onError, setLike)
+    })
+      .then(this._onError)
       .catch(this._isError)
 
   }
+
+  deleteCard(idCard) {
+    return fetch(`${this._connect.baseUrl}/cards/${idCard}`, {
+      method: "DELETE",
+      headers: this._connect.headers
+    })
+      .then(this._onError)
+      .catch(this._isError)
+  }
+
 }
 
 

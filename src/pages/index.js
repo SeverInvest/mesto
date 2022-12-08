@@ -4,6 +4,7 @@ import "./index.css";
 
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import Section from '../components/Section.js';
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -27,21 +28,34 @@ const cardList = new Section({
 const api = new Api(connect);
 api.renderUserAndCards()
   .then((data) => {
-    console.log(data);
     userInfo.setUserInfo({
       name: data[0].name,
       about: data[0].about,
       myId: data[0]._id
     });
     cardList.renderItems({
-      cards: data[1],
-      myId: data[0]._id
+      cards: data[1]
     });
   })
 
 // Создаём экземпляр класса попапа на полный экран
-const popupFullScreen = new PopupWithImage('.popup_type_photo');
+const popupFullScreen = new PopupWithImage(PARAMS.popupBigPhotoSelector);
 popupFullScreen.setEventListeners();
+
+const popupConfirmDeleteCard = new PopupWithConfirm(handleSubmitDeleteCard, PARAMS.popupConfirmSelector);
+popupConfirmDeleteCard.setEventListeners();
+
+function handleSubmitDeleteCard(evt, idCard) {
+  evt.preventDefault();
+  api.deleteCard(idCard)
+  .then(() => {
+
+  })
+  .then(() => popupConfirmDeleteCard.close());
+}
+
+
+
 
 // Объявляем функцию, которая записывает значения в элементы попапа 
 function handleCardClick(data) { popupFullScreen.open(data) };
@@ -52,7 +66,8 @@ function createNewCard(data) {
     data,
     PARAMS.templateCardSelector,
     handleCardClick,
-    handleToggleLike
+    handleToggleLike,
+    userInfo.getUserInfo().myId
   )
     .createCard();
 };
@@ -62,7 +77,7 @@ function addCard(card) {
 }
 
 // Создаём экземпляр класса попапа для добавления карточек
-const popupAddCard = new PopupWithForm(handleSubmitCard, '.popup_type_card');
+const popupAddCard = new PopupWithForm(handleSubmitCard, PARAMS.popupCardSelector);
 
 // Обработчик события submit формы добавления карточки 
 function handleSubmitCard(evt, data) {
@@ -77,6 +92,7 @@ function handleSubmitCard(evt, data) {
 popupAddCard.setEventListeners();
 
 function openPopupCard() {
+
   //cardForm.reset();
   formValidateCard.clearErrors();
   popupAddCard.open();
@@ -101,8 +117,8 @@ function handleSubmitProfile(evt, data) {
 
 function handleToggleLike(data) {
   api.toggleLikeCard(data)
-  .then((response, ...args) => {
-    args[0].setLike(response)
+  .then((response) => {
+    //blablabla.setLike(response)
   })
 };
 

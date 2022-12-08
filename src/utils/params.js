@@ -12,5 +12,6 @@ const PARAMS = {
     popupBigPhotoSelector: '.popup_type_photo',
     popupCardSelector: '.popup_type_card',
     popupCloseSelector: '.popup__close',
+    popupConfirmSelector: '.popup_type_confirm'
   };
   export default PARAMS;
