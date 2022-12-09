@@ -10,7 +10,6 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from '../components/UserInfo.js';
 import PARAMS from '../utils/params.js';
-//import initialCards from "../utils/cards.js";
 import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
 
@@ -42,20 +41,31 @@ api.renderUserAndCards()
 const popupFullScreen = new PopupWithImage(PARAMS.popupBigPhotoSelector);
 popupFullScreen.setEventListeners();
 
-const popupConfirmDeleteCard = new PopupWithConfirm(handleSubmitDeleteCard, PARAMS.popupConfirmSelector);
-popupConfirmDeleteCard.setEventListeners();
+
+
+function handleOpenPopupWithConfirm(idCard) {
+  const popupConfirmDeleteCard = new PopupWithConfirm(
+    handleSubmitDeleteCard, 
+    idCard, 
+    PARAMS.popupConfirmSelector
+    );
+  popupConfirmDeleteCard.setEventListeners();
+  popupConfirmDeleteCard.open();
+}
 
 function handleSubmitDeleteCard(evt, idCard) {
   evt.preventDefault();
-  api.deleteCard(idCard)
-  .then(() => {
-
-  })
-  .then(() => popupConfirmDeleteCard.close());
+  return api.deleteCard(idCard)
+    .then((response) => {
+      popupConfirmDeleteCard.close();
+      popupConfirmDeleteCard.removeEventListeners();
+      return response;
+    })
+    .catch(() => {
+      popupConfirmDeleteCard.close();
+      popupConfirmDeleteCard.removeEventListeners();
+    })
 }
-
-
-
 
 // Объявляем функцию, которая записывает значения в элементы попапа 
 function handleCardClick(data) { popupFullScreen.open(data) };
@@ -67,6 +77,7 @@ function createNewCard(data) {
     PARAMS.templateCardSelector,
     handleCardClick,
     handleToggleLike,
+    handleOpenPopupWithConfirm,
     userInfo.getUserInfo().myId
   )
     .createCard();
@@ -118,7 +129,6 @@ function handleSubmitProfile(evt, data) {
 function handleToggleLike(data) {
   return api.toggleLikeCard(data)
 };
-
 
 popupEditProfile.setEventListeners();
 

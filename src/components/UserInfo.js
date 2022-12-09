@@ -8,7 +8,7 @@ export default class UserInfo {
   };
 
   getUserInfo() {
-    console.log(`myId: ${this._myId}`);
+    //console.log(`myId: ${this._myId}`);
     return {
       profileName: this._profileName.textContent,
       profileAbout: this._profileAbout.textContent,

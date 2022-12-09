@@ -28,6 +28,7 @@
 @import url(../blocks/card/__heart/_active/card__heart_active.css);
 @import url(../blocks/card/__photo/card__photo.css);
 @import url(../blocks/card/__remove-button/card__remove-button.css);
+@import url(../blocks/card/__remove-button/card__remove-button_visible.css);
 @import url(../blocks/card/__heart-and-count-likes/card__heart-and-count-likes.css);
 @import url(../blocks/card/__count-likes/card__count-likes.css);
 
