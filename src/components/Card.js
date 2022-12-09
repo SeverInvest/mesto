@@ -3,7 +3,7 @@
 export default class Card {
   constructor(objCard, templateCardSelector, handleCardClick, handleToggleLike, myId) {
     this._likes = objCard.likes; //массив объектов пользователей, поставивших лайк
-    this._likesCount = this.countLikes(this._likes); //количество лайков
+    //this._likesCount = this.countLikes(this._likes); //количество лайков
     this._idOwner = objCard.owner._id; //id собственника фото
     this._idCard = objCard._id;// id карточки
     this._name = objCard.name;// наименование фото
@@ -22,25 +22,25 @@ export default class Card {
     //this._myLike = this.isMyLike(this._likes); //если есть мой лайк - true, иначе - false 
   };
 
-  countLikes(arrLikes) {
-    return Object.keys(arrLikes).length;
+  countLikes() {
+    return Object.keys(this._likes).length;
   };
 
-  isMyLike(arrLikes) {
-    if (arrLikes.length === 0) {
+  isMyLike() {
+    if (this._likes.length === 0) {
       return false;
     }
-    return arrLikes.some(item => item._id === this._myId)
+    return this._likes.some(item => item._id === this._myId)
   };
 
-  setLike(arrLikes) {
-    this._myLike = this.isMyLike(arrLikes);
-    if (this._myLike) {
+  setLike() {
+
+    if (this.isMyLike()) {
       this._heart.classList.add('card__heart_active');
     } else {
       this._heart.classList.remove('card__heart_active');
     }
-    this._count_likes.textContent = this._likesCount;
+    this._count_likes.textContent =  this.countLikes(this._likes);
   };
 
 
@@ -54,7 +54,7 @@ export default class Card {
   };
 
   _toggleLike() {
-    if (!this._myLike) {
+    if (!this.isMyLike(this._likes)) {
       this._methodCardLike = "PUT";
     } else {
       this._methodCardLike = "DELETE";
@@ -62,8 +62,11 @@ export default class Card {
     this._handleToggleLike({
       idCard: this._idCard,
       methodCardLike: this._methodCardLike,
-      setLike: this.setLike
     })
+      .then((response) => {
+        this._likes = response.likes
+        this.setLike();
+      })
   };
 
   _removeCard() {
@@ -84,7 +87,7 @@ export default class Card {
     this._description.textContent = this._name;
     this._photo.src = this._link;
     this._photo.alt = this._name;
-    this._count_likes.textContent = this._likesCount;
+    this._count_likes.textContent = this.countLikes(this._likes);
     this.setLike(this._likes);
     this._setEventListeners();
     return this._cardElement;

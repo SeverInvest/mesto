@@ -116,10 +116,7 @@ function handleSubmitProfile(evt, data) {
 };
 
 function handleToggleLike(data) {
-  api.toggleLikeCard(data)
-  .then((response) => {
-    //blablabla.setLike(response)
-  })
+  return api.toggleLikeCard(data)
 };
 
 
