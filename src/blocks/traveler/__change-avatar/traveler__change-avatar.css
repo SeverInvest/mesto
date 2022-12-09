@@ -1,0 +1,43 @@
+.traveler__change-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  /* opacity: 0.6; */
+  width: 120px;
+  height: 120px;
+ 
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  /* transition: opacity .3s ease-in-out; */
+  z-index: 2;
+  visibility: hidden;
+}
+
+.traveler__change-avatar:hover {
+  background-color: black;
+  opacity: 0.6;
+  visibility: visible;
+}
+
+.traveler__change-avatar:hover::after {
+  width: 120px;
+  height: 120px;
+  background-image: url(../../../images/corrector.svg);
+  /* transform: scale(2.5); */
+  /* background-image: url(../../../images/corrector.svg); */
+  background-size: contain;
+  content: ' ';
+}
+
+
+@media screen and (max-width: 950px) {
+  .traveler__button-correct {
+    width: 18px;
+    height: 18px;
+  }
+}

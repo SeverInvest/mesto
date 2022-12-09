@@ -43,28 +43,32 @@ popupFullScreen.setEventListeners();
 
 
 
-function handleOpenPopupWithConfirm(idCard) {
-  const popupConfirmDeleteCard = new PopupWithConfirm(
-    handleSubmitDeleteCard, 
-    idCard, 
+function handleOpenPopupWithConfirm(objCard) {
+  //console.log(objCard);
+  const handleSubmitDeleteCard = (evt, idCard) => {
+    evt.preventDefault();
+    //console.log(idCard);
+    return api.deleteCard(idCard)
+      .then((response) => {
+        popupConfirmDeleteCard.close();
+        //popupConfirmDeleteCard.removeEventListeners();
+        if (response.message = "Пост удалён") {
+          objCard.deleteCard();
+        }
+        return response;
+      })
+      .catch(() => {
+        popupConfirmDeleteCard.close();
+        //popupConfirmDeleteCard.removeEventListeners();
+      })
+  }
+   const popupConfirmDeleteCard = new PopupWithConfirm(
+    handleSubmitDeleteCard,
+    objCard._idCard,
     PARAMS.popupConfirmSelector
-    );
+  );
   popupConfirmDeleteCard.setEventListeners();
   popupConfirmDeleteCard.open();
-}
-
-function handleSubmitDeleteCard(evt, idCard) {
-  evt.preventDefault();
-  return api.deleteCard(idCard)
-    .then((response) => {
-      popupConfirmDeleteCard.close();
-      popupConfirmDeleteCard.removeEventListeners();
-      return response;
-    })
-    .catch(() => {
-      popupConfirmDeleteCard.close();
-      popupConfirmDeleteCard.removeEventListeners();
-    })
 }
 
 // Объявляем функцию, которая записывает значения в элементы попапа 

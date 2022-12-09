@@ -2,10 +2,10 @@
 
 export default class Card {
   constructor(
-    objCard, 
-    templateCardSelector, 
-    handleCardClick, 
-    handleToggleLike, 
+    objCard,
+    templateCardSelector,
+    handleCardClick,
+    handleToggleLike,
     handleOpenPopupWithConfirm,
     myId) {
     this._likes = objCard.likes; //массив объектов пользователей, поставивших лайк
@@ -44,7 +44,7 @@ export default class Card {
     } else {
       this._heart.classList.remove('card__heart_active');
     }
-    this._count_likes.textContent =  this._countLikes(this._likes);
+    this._count_likes.textContent = this._countLikes(this._likes);
   };
 
 
@@ -74,14 +74,17 @@ export default class Card {
   };
 
   _removeCard() {
-    this._handleOpenPopupWithConfirm(this._idCard)
-    .then((response) => {
-      if (response.message = "Пост удалён") {
-        this._cardElement.remove();
-        this._cardElement = null;
-      }
-    })
+    //console.log(this);
+    this._handleOpenPopupWithConfirm(this)
   };
+
+  deleteCard() {
+  
+      this._cardElement.remove();
+      this._cardElement = null;
+ 
+  }
+
 
   _setEventListeners() {
     this._photo.addEventListener('click', () => {
@@ -104,9 +107,9 @@ export default class Card {
 
     return this._cardElement;
   }
-/*
-  getCountLikes() {
-    return this._likes;
-  }
-*/
+  /*
+    getCountLikes() {
+      return this._likes;
+    }
+  */
 };

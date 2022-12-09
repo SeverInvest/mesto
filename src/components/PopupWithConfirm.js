@@ -15,6 +15,7 @@ export default class PopupWithConfirm extends Popup {
     setEventListeners() {
         super.setEventListeners();
         this._popupForm.addEventListener('submit', (evt) => {
+            //console.log("До сюда работает")
             this._handleSubmitDeleteCard(evt, this._idCard);
         });
     };

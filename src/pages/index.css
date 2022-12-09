@@ -11,6 +11,7 @@
 @import url(../blocks/traveler/traveler.css);
 @import url(../blocks/traveler/__about/traveler__about.css);
 @import url(../blocks/traveler/__avatar/traveler__avatar.css);
+@import url(../blocks/traveler/__change-avatar/traveler__change-avatar.css);
 @import url(../blocks/traveler/__button-add/traveler__button-add.css);
 @import url(../blocks/traveler/__button-correct/traveler__button-correct.css);
 @import url(../blocks/traveler/__left/traveler__left.css);
