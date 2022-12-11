@@ -1,9 +1,10 @@
 'use strict';
 
 export default class UserInfo {
-  constructor(profileNameSelector, profileAboutSelector) {
+  constructor(profileNameSelector, profileAboutSelector, profileAvatarSelector) {
     this._profileName = document.querySelector(profileNameSelector);
     this._profileAbout = document.querySelector(profileAboutSelector);
+    this._profileAvatar = document.querySelector(profileAvatarSelector);
     this._myId = "";
   };
 
@@ -21,4 +22,13 @@ export default class UserInfo {
     this._profileAbout.textContent = about;
     if (!this._myId) { this._myId = myId };
   };
+
+  renderAvatar(link) {
+    this._profileAvatar.src = link
+  }
+
+  renderUserInfo(info) {
+    this.setUserInfo({ name: info.name, about: info.about, myId: info.myId });
+    this.renderAvatar(info.avatar);
+  }
 };

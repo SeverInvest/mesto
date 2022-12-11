@@ -78,6 +78,16 @@ class Api {
       .catch(this._isError)
   }
 
+  setAvatar(info) {
+    console.log(JSON.stringify(info));
+    return fetch(`${this._connect.baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._connect.headers,
+      body: JSON.stringify(info)
+    })
+      .then(this._onError)
+      .catch(this._isError)
+  }
 }
 
 

@@ -24,11 +24,12 @@
           </button>
           <div class="traveler__middle">
             <div class="traveler__name-and-button">
-              <h1 class="traveler__name">Жак-Ив Кусто</h1>
+              <h1 class="traveler__name"></h1>
               <button class="traveler__button-correct" type="button" aria-label="Редактирование профиля">
+                
               </button>
             </div>
-            <p class="traveler__about">Исследователь океана</p>
+            <p class="traveler__about"></p>
           </div>
         </div>
 
@@ -97,6 +98,20 @@
           <button type="submit" class="form__submit" aria-label="Удаление карточки">Да</button>
         </form>
         <button class="popup__close" type="button" aria-label="Закрытие попапа"></button>
+      </div>
+    </div>
+
+    <div class="popup popup_type_upd-avatar">
+      <div class="popup__container">
+        <h2 class="popup__header">Обновить аватар</h2>
+        <form method="post" class="form" name="form-avatar" id="form-avatar" novalidate>
+          <input required type="url" placeholder="Ссылка на аватар" class="form__input form__input_type_link"
+            name="avatar" id="link">
+          <span class="error" id="link-error"></span>
+          <button type="submit" class="form__submit form__submit_disabled" aria-label="Сохранение данных формы"
+            disabled>Сохранить</button>
+        </form>
+        <button type="button" class="popup__close" aria-label="Закрытие попапа"></button>
       </div>
     </div>
 

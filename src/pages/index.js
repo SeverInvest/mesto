@@ -5,6 +5,7 @@ import "./index.css";
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
+import PopupUpdAvatar from '../components/PopupUpdAvatar.js';
 import Section from '../components/Section.js';
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -13,7 +14,7 @@ import PARAMS from '../utils/params.js';
 import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
 
-const userInfo = new UserInfo('.traveler__name', '.traveler__about');
+const userInfo = new UserInfo('.traveler__name', '.traveler__about', '.traveler__avatar');
 const cardsList = document.querySelector('.cards__list');
 
 const cardList = new Section({
@@ -27,31 +28,40 @@ const cardList = new Section({
 const api = new Api(connect);
 api.renderUserAndCards()
   .then((data) => {
-    userInfo.setUserInfo({
+    userInfo.renderUserInfo({
       name: data[0].name,
       about: data[0].about,
-      myId: data[0]._id
+      myId: data[0]._id,
+      avatar: data[0].avatar
     });
     cardList.renderItems({
       cards: data[1]
     });
   })
 
+//Создаем экземпляр класса попапа изменения аватара
+const popupUpdAvatar = new PopupUpdAvatar(handleSubmitClick, PARAMS.popupUpdateAvatar);
+popupUpdAvatar.setEventListeners();
+
+function handleSubmitClick(evt, link) {
+  evt.preventDefault();
+  return api.setAvatar({"avatar": link})
+  .then(({avatar})=> {
+    userInfo.renderAvatar(avatar)
+  })
+  .then(() => popupUpdAvatar.close())
+}
+
 // Создаём экземпляр класса попапа на полный экран
 const popupFullScreen = new PopupWithImage(PARAMS.popupBigPhotoSelector);
 popupFullScreen.setEventListeners();
 
-
-
 function handleOpenPopupWithConfirm(objCard) {
-  //console.log(objCard);
   const handleSubmitDeleteCard = (evt, idCard) => {
     evt.preventDefault();
-    //console.log(idCard);
     return api.deleteCard(idCard)
       .then((response) => {
         popupConfirmDeleteCard.close();
-        //popupConfirmDeleteCard.removeEventListeners();
         if (response.message = "Пост удалён") {
           objCard.deleteCard();
         }
@@ -59,10 +69,9 @@ function handleOpenPopupWithConfirm(objCard) {
       })
       .catch(() => {
         popupConfirmDeleteCard.close();
-        //popupConfirmDeleteCard.removeEventListeners();
       })
   }
-   const popupConfirmDeleteCard = new PopupWithConfirm(
+  const popupConfirmDeleteCard = new PopupWithConfirm(
     handleSubmitDeleteCard,
     objCard._idCard,
     PARAMS.popupConfirmSelector
@@ -107,7 +116,6 @@ function handleSubmitCard(evt, data) {
 popupAddCard.setEventListeners();
 
 function openPopupCard() {
-
   //cardForm.reset();
   formValidateCard.clearErrors();
   popupAddCard.open();
@@ -150,14 +158,24 @@ function openPopupProfile() {
   popupEditProfile.open();
 };
 
-const profile = document.querySelector('.traveler')
+function openPopupAddAvatar() {
+  popupUpdAvatar.open();
+}
+
+const profile = document.querySelector('.traveler');
 const buttonOpenProfile = profile.querySelector('.traveler__button-correct');
 buttonOpenProfile.addEventListener('click', openPopupProfile);
+const buttonOpenUpdAvatar = profile.querySelector('.traveler__change-avatar');
+buttonOpenUpdAvatar.addEventListener('click', openPopupAddAvatar);
 
 const cardPopup = document.querySelector('.popup_type_card');
 const cardForm = cardPopup.querySelector('.form');
+const avatarPopup = document.querySelector('.popup_type_upd-avatar');
+const popupUpdAvatarForm = avatarPopup.querySelector('.form');
 
 const formValidateProfile = new FormValidator(PARAMS, popupProfileForm);
 const formValidateCard = new FormValidator(PARAMS, cardForm);
+const formValidateAvatar = new FormValidator(PARAMS, popupUpdAvatarForm)
 formValidateProfile.enableValidation();
 formValidateCard.enableValidation();
+formValidateAvatar.enableValidation();

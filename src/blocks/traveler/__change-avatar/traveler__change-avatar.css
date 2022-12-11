@@ -6,38 +6,27 @@
   padding: 0;
   border: none;
   background: transparent;
-  /* opacity: 0.6; */
-  width: 120px;
-  height: 120px;
- 
+  width: 121px;
+  height: 121px;
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
-  /* transition: opacity .3s ease-in-out; */
+  transition: visibility .3s ease-in-out, background-color .3s ease-in-out;
   z-index: 2;
   visibility: hidden;
 }
 
 .traveler__change-avatar:hover {
-  background-color: black;
-  opacity: 0.6;
+  background-color: rgba(0, 0, 0, 0.6);
   visibility: visible;
 }
 
 .traveler__change-avatar:hover::after {
-  width: 120px;
-  height: 120px;
-  background-image: url(../../../images/corrector.svg);
-  /* transform: scale(2.5); */
-  /* background-image: url(../../../images/corrector.svg); */
-  background-size: contain;
-  content: ' ';
+  content: url(../../../images/pencil.svg);
 }
 
-
 @media screen and (max-width: 950px) {
-  .traveler__button-correct {
-    width: 18px;
-    height: 18px;
+  .traveler__change-avatar {
+    left: 25px;
   }
 }
