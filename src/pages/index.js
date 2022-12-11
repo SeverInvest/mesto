@@ -14,15 +14,21 @@ import PARAMS from '../utils/params.js';
 import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
 
-const userInfo = new UserInfo('.traveler__name', '.traveler__about', '.traveler__avatar');
-const cardsList = document.querySelector('.cards__list');
+const userInfo = new UserInfo(
+  PARAMS.profaleNameSelector, 
+  PARAMS.profaleAboutSelector, 
+  PARAMS.profaleAvatarSelector);
+
+const cardsList = document.querySelector(PARAMS.listCardsSelector);
+
+let tempToggleButtonSubmit = ""
 
 const cardList = new Section({
   renderer: data => {
     cardList.addItem(createNewCard(data));
   }
 },
-  '.cards__list'
+  PARAMS.listCardsSelector
 );
 
 const api = new Api(connect);
@@ -45,11 +51,13 @@ popupUpdAvatar.setEventListeners();
 
 function handleSubmitClick(evt, link) {
   evt.preventDefault();
-  return api.setAvatar({"avatar": link})
-  .then(({avatar})=> {
-    userInfo.renderAvatar(avatar)
-  })
-  .then(() => popupUpdAvatar.close())
+  toggleButtonSubmit(avatarPopup, true)
+  return api.setAvatar({ "avatar": link })
+    .then(({ avatar }) => {
+      userInfo.renderAvatar(avatar)
+    })
+    .then(() => popupUpdAvatar.close())
+    .finally(() => toggleButtonSubmit(avatarPopup, false))
 }
 
 // Создаём экземпляр класса попапа на полный экран
@@ -106,11 +114,13 @@ const popupAddCard = new PopupWithForm(handleSubmitCard, PARAMS.popupCardSelecto
 // Обработчик события submit формы добавления карточки 
 function handleSubmitCard(evt, data) {
   evt.preventDefault();
+  toggleButtonSubmit(cardPopup, true)
   api.setCard(data)
     .then((data) => {
       addCard(createNewCard(data));
     })
-    .then(() => popupAddCard.close());
+    .then(() => popupAddCard.close())
+    .finally(() => toggleButtonSubmit(cardPopup, false))
 };
 
 popupAddCard.setEventListeners();
@@ -122,20 +132,22 @@ function openPopupCard() {
 };
 
 // Создание слушателя на кнопки открытия и сохранения попапа добавления карточки
-const buttonOpenAddCard = document.querySelector('.traveler__button-add');
+const buttonOpenAddCard = document.querySelector(PARAMS.buttonAddCardSelector);
 buttonOpenAddCard.addEventListener('click', openPopupCard);
 
 // Создаём экземпляр класса попапа для редактирования профиля
-const popupEditProfile = new PopupWithForm(handleSubmitProfile, '.popup_type_profile');
+const popupEditProfile = new PopupWithForm(handleSubmitProfile, PARAMS.popupProfileSelector);
 
 // Обработчик события submit формы редактированя профиля
 function handleSubmitProfile(evt, data) {
   evt.preventDefault();
+  toggleButtonSubmit(popupProfile, true)
   api.setUserInfo(data)
     .then((data) => {
       userInfo.setUserInfo(data)
     })
     .then(() => popupEditProfile.close())
+    .finally(() => toggleButtonSubmit(popupProfile, false))
 };
 
 function handleToggleLike(data) {
@@ -144,11 +156,11 @@ function handleToggleLike(data) {
 
 popupEditProfile.setEventListeners();
 
-const popupProfile = document.querySelector('.popup_type_profile');
-const popupProfileForm = popupProfile.querySelector('.form');
+const popupProfile = document.querySelector(PARAMS.popupProfileSelector);
+const popupProfileForm = popupProfile.querySelector(PARAMS.formSelector);
 
-const inputProfileName = popupProfileForm.querySelector('.form__input_type_name');
-const inputProfileAbout = popupProfileForm.querySelector('.form__input_type_about');
+const inputProfileName = popupProfileForm.querySelector(PARAMS.inputProfileName);
+const inputProfileAbout = popupProfileForm.querySelector(PARAMS.inputProfileAbout);
 
 function openPopupProfile() {
   const profileInfo = userInfo.getUserInfo();
@@ -162,16 +174,28 @@ function openPopupAddAvatar() {
   popupUpdAvatar.open();
 }
 
-const profile = document.querySelector('.traveler');
-const buttonOpenProfile = profile.querySelector('.traveler__button-correct');
+const profile = document.querySelector(PARAMS.profileSelector);
+const buttonOpenProfile = profile.querySelector(PARAMS.profileButtonCorrectSelector);
 buttonOpenProfile.addEventListener('click', openPopupProfile);
-const buttonOpenUpdAvatar = profile.querySelector('.traveler__change-avatar');
+const buttonOpenUpdAvatar = profile.querySelector(PARAMS.profileButtonUpdAvatarSelector);
 buttonOpenUpdAvatar.addEventListener('click', openPopupAddAvatar);
 
-const cardPopup = document.querySelector('.popup_type_card');
-const cardForm = cardPopup.querySelector('.form');
-const avatarPopup = document.querySelector('.popup_type_upd-avatar');
-const popupUpdAvatarForm = avatarPopup.querySelector('.form');
+const cardPopup = document.querySelector(PARAMS.popupCardSelector);
+const cardForm = cardPopup.querySelector(PARAMS.formSelector);
+const avatarPopup = document.querySelector(PARAMS.popupUpdateAvatar);
+const popupUpdAvatarForm = avatarPopup.querySelector(PARAMS.formSelector);
+
+
+function toggleButtonSubmit(popup, isProcess) {
+  const buttonSubmitUpdAvatar = popup.querySelector(PARAMS.submitButtonSelector);
+  if (isProcess) {
+    tempToggleButtonSubmit = buttonSubmitUpdAvatar.textContent
+    buttonSubmitUpdAvatar.textContent = "Сохранение...";
+  } else {
+    buttonSubmitUpdAvatar.textContent = tempToggleButtonSubmit;
+    tempToggleButtonSubmit = "";
+  }
+}
 
 const formValidateProfile = new FormValidator(PARAMS, popupProfileForm);
 const formValidateCard = new FormValidator(PARAMS, cardForm);

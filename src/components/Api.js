@@ -79,7 +79,7 @@ class Api {
   }
 
   setAvatar(info) {
-    console.log(JSON.stringify(info));
+    // console.log(JSON.stringify(info));
     return fetch(`${this._connect.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._connect.headers,
