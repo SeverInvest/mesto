@@ -10,12 +10,17 @@ export default class PopupWithForm extends Popup {
     this._inputs = {};
     this._inputList = Array.from(this._popup.querySelectorAll(PARAMS.inputSelector));
     this._form = this._popup.querySelector(PARAMS.formSelector);
+    this._buttonSubmitCreate = "Создать";
   };
 
   setEventListeners() {
     super.setEventListeners();
     this._popup.addEventListener('submit', (evt) => {
-      this._handleSubmitClick(evt, this._getInputValues());
+      this._handleSubmitClick(
+        evt,
+        this._getInputValues(),
+        this._buttonSubmitCreate
+      );
     });
   };
 

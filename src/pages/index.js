@@ -15,13 +15,11 @@ import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
 
 const userInfo = new UserInfo(
-  PARAMS.profaleNameSelector, 
-  PARAMS.profaleAboutSelector, 
+  PARAMS.profaleNameSelector,
+  PARAMS.profaleAboutSelector,
   PARAMS.profaleAvatarSelector);
 
 const cardsList = document.querySelector(PARAMS.listCardsSelector);
-
-let tempToggleButtonSubmit = ""
 
 const cardList = new Section({
   renderer: data => {
@@ -32,7 +30,7 @@ const cardList = new Section({
 );
 
 const api = new Api(connect);
-api.renderUserAndCards()
+api.getInitialData()
   .then((data) => {
     userInfo.renderUserInfo({
       name: data[0].name,
@@ -49,44 +47,46 @@ api.renderUserAndCards()
 const popupUpdAvatar = new PopupUpdAvatar(handleSubmitClick, PARAMS.popupUpdateAvatar);
 popupUpdAvatar.setEventListeners();
 
-function handleSubmitClick(evt, link) {
+function handleSubmitClick(evt, link, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(avatarPopup, true)
+  toggleButtonSubmit(avatarPopup, true, buttonSubmitText)
   return api.setAvatar({ "avatar": link })
     .then(({ avatar }) => {
       userInfo.renderAvatar(avatar)
     })
     .then(() => popupUpdAvatar.close())
-    .finally(() => toggleButtonSubmit(avatarPopup, false))
+    .finally(() => toggleButtonSubmit(avatarPopup, false, buttonSubmitText))
 }
 
 // Создаём экземпляр класса попапа на полный экран
 const popupFullScreen = new PopupWithImage(PARAMS.popupBigPhotoSelector);
 popupFullScreen.setEventListeners();
 
-function handleOpenPopupWithConfirm(objCard) {
-  const handleSubmitDeleteCard = (evt, idCard) => {
-    evt.preventDefault();
-    return api.deleteCard(idCard)
-      .then((response) => {
-        popupConfirmDeleteCard.close();
-        if (response.message = "Пост удалён") {
-          objCard.deleteCard();
-        }
-        return response;
-      })
-      .catch(() => {
-        popupConfirmDeleteCard.close();
-      })
-  }
-  const popupConfirmDeleteCard = new PopupWithConfirm(
-    handleSubmitDeleteCard,
-    objCard._idCard,
-    PARAMS.popupConfirmSelector
-  );
-  popupConfirmDeleteCard.setEventListeners();
-  popupConfirmDeleteCard.open();
-}
+function handleOpenPopupWithConfirm(card) {
+  popupConfirmDeleteCard.open(card);
+};
+
+const popupConfirmDeleteCard = new PopupWithConfirm(
+  handleSubmitDeleteCard,
+  PARAMS.popupConfirmSelector
+);
+
+popupConfirmDeleteCard.setEventListeners();
+
+function handleSubmitDeleteCard (evt, card) {
+  evt.preventDefault();
+  return api.deleteCard(card._idCard)
+    .then((response) => {
+      popupConfirmDeleteCard.close();
+      if (response.message = "Пост удалён") {
+        card.deleteCard();
+      }
+      return response;
+    })
+    .catch(() => {
+      popupConfirmDeleteCard.close();
+    })
+};
 
 // Объявляем функцию, которая записывает значения в элементы попапа 
 function handleCardClick(data) { popupFullScreen.open(data) };
@@ -112,15 +112,15 @@ function addCard(card) {
 const popupAddCard = new PopupWithForm(handleSubmitCard, PARAMS.popupCardSelector);
 
 // Обработчик события submit формы добавления карточки 
-function handleSubmitCard(evt, data) {
+function handleSubmitCard(evt, data, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(cardPopup, true)
+  toggleButtonSubmit(cardPopup, true, buttonSubmitText)
   api.setCard(data)
     .then((data) => {
       addCard(createNewCard(data));
     })
     .then(() => popupAddCard.close())
-    .finally(() => toggleButtonSubmit(cardPopup, false))
+    .finally(() => toggleButtonSubmit(cardPopup, false, buttonSubmitText))
 };
 
 popupAddCard.setEventListeners();
@@ -139,15 +139,15 @@ buttonOpenAddCard.addEventListener('click', openPopupCard);
 const popupEditProfile = new PopupWithForm(handleSubmitProfile, PARAMS.popupProfileSelector);
 
 // Обработчик события submit формы редактированя профиля
-function handleSubmitProfile(evt, data) {
+function handleSubmitProfile(evt, data, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(popupProfile, true)
+  toggleButtonSubmit(popupProfile, true, buttonSubmitText)
   api.setUserInfo(data)
     .then((data) => {
       userInfo.setUserInfo(data)
     })
     .then(() => popupEditProfile.close())
-    .finally(() => toggleButtonSubmit(popupProfile, false))
+    .finally(() => toggleButtonSubmit(popupProfile, false, buttonSubmitText))
 };
 
 function handleToggleLike(data) {
@@ -185,15 +185,14 @@ const cardForm = cardPopup.querySelector(PARAMS.formSelector);
 const avatarPopup = document.querySelector(PARAMS.popupUpdateAvatar);
 const popupUpdAvatarForm = avatarPopup.querySelector(PARAMS.formSelector);
 
-
-function toggleButtonSubmit(popup, isProcess) {
-  const buttonSubmitUpdAvatar = popup.querySelector(PARAMS.submitButtonSelector);
+function toggleButtonSubmit(popup, isProcess, buttonSubmitText) {
+  const buttonSubmit = popup.querySelector(PARAMS.submitButtonSelector);
   if (isProcess) {
-    tempToggleButtonSubmit = buttonSubmitUpdAvatar.textContent
-    buttonSubmitUpdAvatar.textContent = "Сохранение...";
+    // tempToggleButtonSubmit = buttonSubmit.textContent
+    buttonSubmit.textContent = "Сохранение...";
   } else {
-    buttonSubmitUpdAvatar.textContent = tempToggleButtonSubmit;
-    tempToggleButtonSubmit = "";
+    buttonSubmit.textContent = buttonSubmitText;
+    // tempToggleButtonSubmit = "";
   }
 }
 

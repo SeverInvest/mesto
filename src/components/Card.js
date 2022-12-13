@@ -73,10 +73,9 @@ export default class Card {
       })
   };
 
-  _removeCard() {
-    //console.log(this);
-    this._handleOpenPopupWithConfirm(this)
-  };
+  // _removeCard() {
+  //   this._handleOpenPopupWithConfirm(this)
+  // };
 
   deleteCard() {
   
@@ -85,13 +84,13 @@ export default class Card {
  
   }
 
-
   _setEventListeners() {
     this._photo.addEventListener('click', () => {
       this._handleCardClick({ 'name': this._name, 'link': this._link });
     });
     this._heart.addEventListener('click', () => this._toggleLike());
-    this._remove_button.addEventListener('click', () => this._removeCard());
+    // this._remove_button.addEventListener('click', () => this._removeCard());
+    this._remove_button.addEventListener('click', () => this._handleOpenPopupWithConfirm(this));
   }
 
   createCard() {

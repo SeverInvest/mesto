@@ -35,7 +35,7 @@ class Api {
       .catch(this._isError)
   }
 
-  renderUserAndCards() {
+  getInitialData() {
     return Promise.all([this.getUser(), this.getInitialCards()])
   }
 

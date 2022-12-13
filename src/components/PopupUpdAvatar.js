@@ -7,12 +7,17 @@ export default class PopupUpdAvatar extends Popup {
     this._handleSubmitClick = handleSubmitClick;
     this._input = this._popup.querySelector(PARAMS.inputSelector);
     this._form = this._popup.querySelector(PARAMS.formSelector);
+    this._buttonSubmitText = "Сохранить";
   };
 
   setEventListeners() {
     super.setEventListeners();
     this._popup.addEventListener('submit', (evt) => {
-      this._handleSubmitClick(evt, this._getInputValue());
+      this._handleSubmitClick(
+        evt,
+        this._getInputValue(),
+        this._buttonSubmitText
+      );
     });
   };
 

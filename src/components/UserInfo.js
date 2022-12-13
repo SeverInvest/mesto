@@ -9,7 +9,6 @@ export default class UserInfo {
   };
 
   getUserInfo() {
-    //console.log(`myId: ${this._myId}`);
     return {
       profileName: this._profileName.textContent,
       profileAbout: this._profileAbout.textContent,
@@ -18,13 +17,19 @@ export default class UserInfo {
   };
 
   setUserInfo({ name, about, myId = "" }) {
-    this._profileName.textContent = name;
-    this._profileAbout.textContent = about;
+    if (name) {
+      this._profileName.textContent = name;
+    };
+    if (about) {
+      this._profileAbout.textContent = about;
+    };
     if (!this._myId) { this._myId = myId };
   };
 
   renderAvatar(link) {
-    this._profileAvatar.src = link
+    if (link) {
+      this._profileAvatar.src = link
+    };
   }
 
   renderUserInfo(info) {
