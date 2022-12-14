@@ -12,18 +12,12 @@ class Api {
     return Promise.reject(`Ошибка: ${result.status}`);
   }
 
-  _isError(error) {
-    console.log(error);
-  }
-
   getInitialCards() {
     return fetch(`${this._connect.baseUrl}/cards`, {
       method: "GET",
       headers: this._connect.headers
     })
       .then(this._onError)
-      .catch(this._isError)
-
   }
 
   getUser() {
@@ -32,7 +26,6 @@ class Api {
       headers: this._connect.headers
     })
       .then(this._onError)
-      .catch(this._isError)
   }
 
   getInitialData() {
@@ -46,7 +39,6 @@ class Api {
       body: JSON.stringify(info)
     })
       .then(this._onError)
-      .catch(this._isError)
   }
 
   setCard(info) {
@@ -56,7 +48,6 @@ class Api {
       body: JSON.stringify(info)
     })
       .then(this._onError)
-      .catch(this._isError)
   }
 
   toggleLikeCard({ idCard, methodCardLike }) {
@@ -65,8 +56,6 @@ class Api {
       headers: this._connect.headers
     })
       .then(this._onError)
-      .catch(this._isError)
-
   }
 
   deleteCard(idCard) {
@@ -75,23 +64,16 @@ class Api {
       headers: this._connect.headers
     })
       .then(this._onError)
-      .catch(this._isError)
   }
 
   setAvatar(info) {
-    // console.log(JSON.stringify(info));
     return fetch(`${this._connect.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._connect.headers,
       body: JSON.stringify(info)
     })
       .then(this._onError)
-      .catch(this._isError)
   }
 }
-
-
-
-
 
 export default Api;

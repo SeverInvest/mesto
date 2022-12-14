@@ -29,6 +29,10 @@ const cardList = new Section({
   PARAMS.listCardsSelector
 );
 
+function isError(error) {
+  console.log(error);
+}
+
 const api = new Api(connect);
 api.getInitialData()
   .then((data) => {
@@ -40,8 +44,9 @@ api.getInitialData()
     });
     cardList.renderItems({
       cards: data[1]
-    });
+    })
   })
+  .catch((error) => isError(error))
 
 //Создаем экземпляр класса попапа изменения аватара
 const popupUpdAvatar = new PopupUpdAvatar(handleSubmitClick, PARAMS.popupUpdateAvatar);
@@ -50,12 +55,15 @@ popupUpdAvatar.setEventListeners();
 function handleSubmitClick(evt, link, buttonSubmitText) {
   evt.preventDefault();
   toggleButtonSubmit(avatarPopup, true, buttonSubmitText)
-  return api.setAvatar({ "avatar": link })
+  api.setAvatar({ "avatar": link })
     .then(({ avatar }) => {
       userInfo.renderAvatar(avatar)
     })
-    .then(() => popupUpdAvatar.close())
-    .finally(() => toggleButtonSubmit(avatarPopup, false, buttonSubmitText))
+    .catch((error) => isError(error))
+    .finally(() => {
+      popupUpdAvatar.close()
+      toggleButtonSubmit(avatarPopup, false, buttonSubmitText)
+    })
 }
 
 // Создаём экземпляр класса попапа на полный экран
@@ -73,18 +81,19 @@ const popupConfirmDeleteCard = new PopupWithConfirm(
 
 popupConfirmDeleteCard.setEventListeners();
 
-function handleSubmitDeleteCard (evt, card) {
+function handleSubmitDeleteCard(evt, card) {
   evt.preventDefault();
-  return api.deleteCard(card._idCard)
+  api.deleteCard(card._idCard)
     .then((response) => {
-      popupConfirmDeleteCard.close();
       if (response.message = "Пост удалён") {
         card.deleteCard();
       }
-      return response;
     })
-    .catch(() => {
-      popupConfirmDeleteCard.close();
+    .catch((error) => {
+      isError(error);
+    })
+    .finally(() => {
+      popupConfirmDeleteCard.close()
     })
 };
 
@@ -119,14 +128,16 @@ function handleSubmitCard(evt, data, buttonSubmitText) {
     .then((data) => {
       addCard(createNewCard(data));
     })
-    .then(() => popupAddCard.close())
-    .finally(() => toggleButtonSubmit(cardPopup, false, buttonSubmitText))
+    .catch((error) => isError(error))
+    .finally(() => {
+      popupAddCard.close();
+      toggleButtonSubmit(cardPopup, false, buttonSubmitText);
+    })
 };
 
 popupAddCard.setEventListeners();
 
 function openPopupCard() {
-  //cardForm.reset();
   formValidateCard.clearErrors();
   popupAddCard.open();
 };
@@ -146,12 +157,21 @@ function handleSubmitProfile(evt, data, buttonSubmitText) {
     .then((data) => {
       userInfo.setUserInfo(data)
     })
-    .then(() => popupEditProfile.close())
-    .finally(() => toggleButtonSubmit(popupProfile, false, buttonSubmitText))
+    // .then(() => popupEditProfile.close())
+    .catch((error) => isError(error))
+    .finally(() => {
+      popupEditProfile.close();
+      toggleButtonSubmit(popupProfile, false, buttonSubmitText);
+    })
 };
 
 function handleToggleLike(data) {
-  return api.toggleLikeCard(data)
+  api.toggleLikeCard(data)
+    .then((response) => {
+      data.card.setLikes(response.likes);
+      data.card._setLike();
+    })
+    .catch((error) => { isError(error) })
 };
 
 popupEditProfile.setEventListeners();
@@ -188,11 +208,9 @@ const popupUpdAvatarForm = avatarPopup.querySelector(PARAMS.formSelector);
 function toggleButtonSubmit(popup, isProcess, buttonSubmitText) {
   const buttonSubmit = popup.querySelector(PARAMS.submitButtonSelector);
   if (isProcess) {
-    // tempToggleButtonSubmit = buttonSubmit.textContent
     buttonSubmit.textContent = "Сохранение...";
   } else {
     buttonSubmit.textContent = buttonSubmitText;
-    // tempToggleButtonSubmit = "";
   }
 }
 
