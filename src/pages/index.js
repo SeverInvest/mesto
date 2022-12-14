@@ -5,7 +5,6 @@ import "./index.css";
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
-import PopupUpdAvatar from '../components/PopupUpdAvatar.js';
 import Section from '../components/Section.js';
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -13,6 +12,7 @@ import UserInfo from '../components/UserInfo.js';
 import PARAMS from '../utils/params.js';
 import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
+import { renderLoading } from "../utils/utils.js";
 
 const userInfo = new UserInfo(
   PARAMS.profaleNameSelector,
@@ -49,20 +49,20 @@ api.getInitialData()
   .catch((error) => isError(error))
 
 //Создаем экземпляр класса попапа изменения аватара
-const popupUpdAvatar = new PopupUpdAvatar(handleSubmitClick, PARAMS.popupUpdateAvatar);
+const popupUpdAvatar = new PopupWithForm(handleSubmitAvatar, PARAMS.popupUpdateAvatar);
 popupUpdAvatar.setEventListeners();
 
-function handleSubmitClick(evt, link, buttonSubmitText) {
+function handleSubmitAvatar(evt, link, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(avatarPopup, true, buttonSubmitText)
-  api.setAvatar({ "avatar": link })
+  renderLoading(avatarPopup, true, buttonSubmitText)
+  api.setAvatar(link)
     .then(({ avatar }) => {
       userInfo.renderAvatar(avatar)
     })
     .catch((error) => isError(error))
     .finally(() => {
       popupUpdAvatar.close()
-      toggleButtonSubmit(avatarPopup, false, buttonSubmitText)
+      renderLoading(avatarPopup, false, buttonSubmitText)
     })
 }
 
@@ -123,7 +123,7 @@ const popupAddCard = new PopupWithForm(handleSubmitCard, PARAMS.popupCardSelecto
 // Обработчик события submit формы добавления карточки 
 function handleSubmitCard(evt, data, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(cardPopup, true, buttonSubmitText)
+  renderLoading(cardPopup, true, buttonSubmitText)
   api.setCard(data)
     .then((data) => {
       addCard(createNewCard(data));
@@ -131,7 +131,7 @@ function handleSubmitCard(evt, data, buttonSubmitText) {
     .catch((error) => isError(error))
     .finally(() => {
       popupAddCard.close();
-      toggleButtonSubmit(cardPopup, false, buttonSubmitText);
+      renderLoading(cardPopup, false, buttonSubmitText);
     })
 };
 
@@ -152,7 +152,7 @@ const popupEditProfile = new PopupWithForm(handleSubmitProfile, PARAMS.popupProf
 // Обработчик события submit формы редактированя профиля
 function handleSubmitProfile(evt, data, buttonSubmitText) {
   evt.preventDefault();
-  toggleButtonSubmit(popupProfile, true, buttonSubmitText)
+  renderLoading(popupProfile, true, buttonSubmitText)
   api.setUserInfo(data)
     .then((data) => {
       userInfo.setUserInfo(data)
@@ -161,7 +161,7 @@ function handleSubmitProfile(evt, data, buttonSubmitText) {
     .catch((error) => isError(error))
     .finally(() => {
       popupEditProfile.close();
-      toggleButtonSubmit(popupProfile, false, buttonSubmitText);
+      renderLoading(popupProfile, false, buttonSubmitText);
     })
 };
 
@@ -191,6 +191,7 @@ function openPopupProfile() {
 };
 
 function openPopupAddAvatar() {
+  formValidateAvatar.clearErrors();
   popupUpdAvatar.open();
 }
 
@@ -204,15 +205,6 @@ const cardPopup = document.querySelector(PARAMS.popupCardSelector);
 const cardForm = cardPopup.querySelector(PARAMS.formSelector);
 const avatarPopup = document.querySelector(PARAMS.popupUpdateAvatar);
 const popupUpdAvatarForm = avatarPopup.querySelector(PARAMS.formSelector);
-
-function toggleButtonSubmit(popup, isProcess, buttonSubmitText) {
-  const buttonSubmit = popup.querySelector(PARAMS.submitButtonSelector);
-  if (isProcess) {
-    buttonSubmit.textContent = "Сохранение...";
-  } else {
-    buttonSubmit.textContent = buttonSubmitText;
-  }
-}
 
 const formValidateProfile = new FormValidator(PARAMS, popupProfileForm);
 const formValidateCard = new FormValidator(PARAMS, cardForm);
