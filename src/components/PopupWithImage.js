@@ -1,12 +1,13 @@
 'use strict';
 
 import Popup from './Popup.js';
+import PARAMS from '../utils/params.js';
 
 export default class PopupWithImage extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
-    this._popupPicture = document.querySelector('.popup__photo');
-    this._popupText = document.querySelector('.popup__photo-description');
+    this._popupPicture = this._popup.querySelector(PARAMS.popupPictureSelector);
+    this._popupText = this._popup.querySelector(PARAMS.popupPictureTextSelector);
   };
 
   open({ name, link }) {

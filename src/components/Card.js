@@ -39,7 +39,7 @@ export default class Card {
 
   _setLike() {
 
-    if (this._isMyLike()) {
+    if (this._isMyLike(this._likes)) {
       this._heart.classList.add('card__heart_active');
     } else {
       this._heart.classList.remove('card__heart_active');
@@ -47,6 +47,9 @@ export default class Card {
     this._count_likes.textContent = this._countLikes(this._likes);
   };
 
+  setLikes(arrLikes) {
+    this._likes = arrLikes;
+  }
 
   _getTemplate() {
     const cardElement = document
@@ -63,35 +66,26 @@ export default class Card {
     } else {
       this._methodCardLike = "DELETE";
     }
-    this._handleToggleLike({
+    return this._handleToggleLike({
       idCard: this._idCard,
       methodCardLike: this._methodCardLike,
+      card: this
     })
-      .then((response) => {
-        this._likes = response.likes
-        this._setLike();
-      })
-  };
-
-  _removeCard() {
-    //console.log(this);
-    this._handleOpenPopupWithConfirm(this)
   };
 
   deleteCard() {
-  
-      this._cardElement.remove();
-      this._cardElement = null;
- 
-  }
 
+    this._cardElement.remove();
+    this._cardElement = null;
+
+  }
 
   _setEventListeners() {
     this._photo.addEventListener('click', () => {
       this._handleCardClick({ 'name': this._name, 'link': this._link });
     });
     this._heart.addEventListener('click', () => this._toggleLike());
-    this._remove_button.addEventListener('click', () => this._removeCard());
+    this._remove_button.addEventListener('click', () => this._handleOpenPopupWithConfirm(this));
   }
 
   createCard() {
@@ -107,9 +101,4 @@ export default class Card {
 
     return this._cardElement;
   }
-  /*
-    getCountLikes() {
-      return this._likes;
-    }
-  */
 };

@@ -24,6 +24,8 @@ const PARAMS = {
     listCardsSelector: '.cards__list',
     profaleNameSelector: '.traveler__name',
     profaleAboutSelector: '.traveler__about',
-    profaleAvatarSelector: '.traveler__avatar'
+    profaleAvatarSelector: '.traveler__avatar',
+    popupPictureSelector: '.popup__photo',
+    popupPictureTextSelector: '.popup__photo-description'
   };
   export default PARAMS;
