@@ -12,7 +12,7 @@ import UserInfo from '../components/UserInfo.js';
 import PARAMS from '../utils/params.js';
 import Api from "../components/Api.js";
 import connect from "../utils/connect.js";
-import { renderLoading } from "../utils/utils.js";
+import { renderLoading, isError } from "../utils/utils.js";
 
 const userInfo = new UserInfo(
   PARAMS.profaleNameSelector,
@@ -28,10 +28,6 @@ const cardList = new Section({
 },
   PARAMS.listCardsSelector
 );
-
-function isError(error) {
-  console.log(error);
-}
 
 const api = new Api(connect);
 api.getInitialData()
@@ -59,11 +55,11 @@ function handleSubmitAvatar(evt, link, buttonSubmitText) {
     .then(({ avatar }) => {
       userInfo.renderAvatar(avatar)
     })
-    .catch((error) => isError(error))
-    .finally(() => {
+    .then(() => {
       popupUpdAvatar.close()
       renderLoading(avatarPopup, false, buttonSubmitText)
     })
+    .catch((error) => isError(error))
 }
 
 // Создаём экземпляр класса попапа на полный экран
@@ -89,11 +85,11 @@ function handleSubmitDeleteCard(evt, card) {
         card.deleteCard();
       }
     })
+    .then(() => {
+      popupConfirmDeleteCard.close()
+    })
     .catch((error) => {
       isError(error);
-    })
-    .finally(() => {
-      popupConfirmDeleteCard.close()
     })
 };
 
@@ -128,11 +124,11 @@ function handleSubmitCard(evt, data, buttonSubmitText) {
     .then((data) => {
       addCard(createNewCard(data));
     })
-    .catch((error) => isError(error))
-    .finally(() => {
+    .then(() => {
       popupAddCard.close();
       renderLoading(cardPopup, false, buttonSubmitText);
     })
+    .catch((error) => isError(error))
 };
 
 popupAddCard.setEventListeners();
@@ -157,12 +153,11 @@ function handleSubmitProfile(evt, data, buttonSubmitText) {
     .then((data) => {
       userInfo.setUserInfo(data)
     })
-    // .then(() => popupEditProfile.close())
-    .catch((error) => isError(error))
-    .finally(() => {
+    .then(() => {
       popupEditProfile.close();
       renderLoading(popupProfile, false, buttonSubmitText);
     })
+    .catch((error) => isError(error))
 };
 
 function handleToggleLike(data) {
