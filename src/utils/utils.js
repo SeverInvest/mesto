@@ -7,4 +7,8 @@ export function renderLoading(popup, isProcess, buttonSubmitText) {
     } else {
       buttonSubmit.textContent = buttonSubmitText;
     }
-  }
+  };
+
+  export function isError(error) {
+    console.log(error);
+  };
